@@ -63,6 +63,11 @@ plt.show()
 y_pred = regressor.predict(X_test)
 plt.scatter(X_test, y_test, color = 'red')
 plt.plot(X_test, y_pred, color = 'blue')
+
+for i in range(len(X_test)):
+    lineXdata = (X_test.iloc(0)[i], X_test.iloc(0)[i]) # same X
+    lineYdata = (y_test.iloc(0)[i], y_pred[i]) # different Y
+    plt.plot(lineXdata, lineYdata, color='green')
 #plt.plot(X_train, y_predz, color = 'green')
 plt.grid()
 plt.title('Advt vs. Sales (Test set)')
