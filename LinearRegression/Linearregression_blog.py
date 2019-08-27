@@ -94,21 +94,29 @@ plt.show()
 # Visualising to calculate TSS
 y_pred = regressor.predict(X_test)
 plt.scatter(X_test, y_test, color = 'red')
-plt.plot(X_test,[*y_test.mean()]*50, '---')
+plt.plot(X_test,[*y_test.mean()]*50, '--')
+for i in range(len(X_test)):
+    lineXdata = (X_test.iloc(0)[i], X_test.iloc(0)[i]) # same X
+    lineYdata = (y_test.iloc(0)[i], y_test.mean()) # different Y
+    plt.plot(lineXdata, lineYdata, color='green', linewidth = 0.5)
+plt.show()
 #%%
+
 residual_df = y_test - y_pred
 plt.scatter(residual_df**2, y_pred)
 plt.show()
 
 #%%
+# calculating correlation between residual sums and Y predicted
 y_pred_df = pd.DataFrame(data = np.array([x for a in y_pred for x in a ]))
 print(y_pred_df[0].corr(residual_df['sales']))
 
 #%%
+# Calculating RSS
 rss = 0
 for x in residual_df['sales']:
     rss = rss + x**2
-
+# Calculating TSS
 tss = 0
 y_avg=y_test.mean()
 total_sum_df = (y_test-y_avg)
@@ -116,4 +124,9 @@ total_sum_df = (y_test-y_avg)
 for x in total_sum_df['sales']:
     tss = tss + x**2
 
+# clculating R-Squared
+RSquared = (1-rss/tss)*100
+print('R-Squared calculated =', RSquared)
+if RSquared == xtrainScore:
+    print("HENCE, Matches exactly from the result of LinearRegression.score method :-)")
 #%%
